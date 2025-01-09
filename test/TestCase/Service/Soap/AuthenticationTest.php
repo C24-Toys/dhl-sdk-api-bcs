@@ -18,7 +18,7 @@ use Dhl\Sdk\Paket\Bcs\Soap\SoapServiceFactory;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\CommunicationExpectation;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\Soap\Service\AuthenticationTestProvider;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\Test\TestLogger;
+use Psr\Log\LoggerInterface;
 
 class AuthenticationTest extends AbstractApiTest
 {
@@ -62,7 +62,7 @@ class AuthenticationTest extends AbstractApiTest
         $this->expectExceptionCode(401);
         $this->expectExceptionMessage(ErrorHandlerDecorator::AUTH_ERROR_MESSAGE);
 
-        $logger = new TestLogger();
+        $logger = $this->createMock(LoggerInterface::class);
 
         /** @var \SoapClient|MockObject $soapClient */
         $soapClient = $this->getMockClient($wsdl, $authStorage);
@@ -115,7 +115,7 @@ class AuthenticationTest extends AbstractApiTest
         $this->expectExceptionCode((int) $statusCode[0]);
         $this->expectExceptionMessage((string) $statusText[0]);
 
-        $logger = new TestLogger();
+        $logger = $this->createMock(LoggerInterface::class);
 
         $soapClient = $this->getMockClient($wsdl, $authStorage);
         $soapClient->expects(self::once())

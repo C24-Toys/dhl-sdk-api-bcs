@@ -19,7 +19,7 @@ use Dhl\Sdk\Paket\Bcs\Test\Provider\Http\Service\CancelShipmentTestProvider;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Mock\Client;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\Test\TestLogger;
+use Psr\Log\LoggerInterface;
 
 class CancelShipmentTest extends TestCase
 {
@@ -69,7 +69,7 @@ class CancelShipmentTest extends TestCase
         $reasonPhrase = count($shipmentNumbers) > 1 ? 'Multi-status' : 'OK';
 
         $httpClient = new Client();
-        $logger = new TestLogger();
+        $logger = $this->createMock(LoggerInterface::class);
 
         $responseFactory = Psr17FactoryDiscovery::findResponseFactory();
         $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
@@ -122,7 +122,7 @@ class CancelShipmentTest extends TestCase
         $reasonPhrase = 'Multi-status';
 
         $httpClient = new Client();
-        $logger = new TestLogger();
+        $logger = $this->createMock(LoggerInterface::class);
 
         $responseFactory = Psr17FactoryDiscovery::findResponseFactory();
         $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
@@ -177,7 +177,7 @@ class CancelShipmentTest extends TestCase
         $this->expectExceptionCode($statusCode);
 
         $httpClient = new Client();
-        $logger = new TestLogger();
+        $logger = $this->createMock(LoggerInterface::class);
 
         $responseFactory = Psr17FactoryDiscovery::findResponseFactory();
         $streamFactory = Psr17FactoryDiscovery::findStreamFactory();

@@ -20,7 +20,7 @@ use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Mock\Client;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
-use Psr\Log\Test\TestLogger;
+use Psr\Log\LoggerInterface;
 
 class SchemaValidatorTest extends TestCase
 {
@@ -65,7 +65,7 @@ class SchemaValidatorTest extends TestCase
         $reasonPhrase = count($shipmentOrders) > 1 ? 'Multi-status' : 'OK';
 
         $httpClient = new Client();
-        $logger = new TestLogger();
+        $logger = $this->createMock(LoggerInterface::class);
 
         $responseFactory = Psr17FactoryDiscovery::findResponseFactory();
         $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
@@ -106,7 +106,7 @@ class SchemaValidatorTest extends TestCase
         $this->expectException(DetailedServiceException::class);
 
         $httpClient = new Client();
-        $logger = new TestLogger();
+        $logger = $this->createMock(LoggerInterface::class);
 
         $serviceFactory = new HttpServiceFactory($httpClient, Client::class);
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);

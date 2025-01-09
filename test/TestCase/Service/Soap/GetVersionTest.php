@@ -13,7 +13,7 @@ use Dhl\Sdk\Paket\Bcs\Exception\ServiceException;
 use Dhl\Sdk\Paket\Bcs\Soap\SoapServiceFactory;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\CommunicationExpectation;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\Soap\Service\GetVersionTestProvider;
-use Psr\Log\Test\TestLogger;
+use Psr\Log\LoggerInterface;
 
 class GetVersionTest extends AbstractApiTest
 {
@@ -44,7 +44,7 @@ class GetVersionTest extends AbstractApiTest
         AuthenticationStorageInterface $authStorage,
         string $responseXml
     ): void {
-        $logger = new TestLogger();
+        $logger = $this->createMock(LoggerInterface::class);
 
         $soapClient = $this->getMockClient($wsdl, $authStorage);
         $soapClient->expects(self::once())

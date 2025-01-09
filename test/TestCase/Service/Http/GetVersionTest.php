@@ -15,7 +15,7 @@ use Dhl\Sdk\Paket\Bcs\Test\Provider\Http\Service\GetVersionTestProvider;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Mock\Client;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\Test\TestLogger;
+use Psr\Log\LoggerInterface;
 
 class GetVersionTest extends TestCase
 {
@@ -53,7 +53,7 @@ class GetVersionTest extends TestCase
             ->withBody($streamFactory->createStream($responseBody));
 
         $httpClient->setDefaultResponse($getVersionResponse);
-        $logger = new TestLogger();
+        $logger = $this->createMock(LoggerInterface::class);
 
         $serviceFactory = new HttpServiceFactory($httpClient);
         $service = $serviceFactory->createShipmentService($authStorage, $logger, true);

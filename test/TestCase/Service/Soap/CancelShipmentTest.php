@@ -16,7 +16,7 @@ use Dhl\Sdk\Paket\Bcs\Soap\SoapServiceFactory;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\CommunicationExpectation;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\ShipmentServiceTestExpectation as Expectation;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\Soap\Service\CancelShipmentTestProvider;
-use Psr\Log\Test\TestLogger;
+use Psr\Log\LoggerInterface;
 
 class CancelShipmentTest extends AbstractApiTest
 {
@@ -71,7 +71,7 @@ class CancelShipmentTest extends AbstractApiTest
         array $shipmentNumbers,
         string $responseXml
     ): void {
-        $logger = new TestLogger();
+        $logger = $this->createMock(LoggerInterface::class);
 
         $soapClient = $this->getMockClient($wsdl, $authStorage);
         $soapClient->expects(self::once())
@@ -114,7 +114,7 @@ class CancelShipmentTest extends AbstractApiTest
         array $shipmentNumbers,
         string $responseXml
     ): void {
-        $logger = new TestLogger();
+        $logger = $this->createMock(LoggerInterface::class);
 
         $soapClient = $this->getMockClient($wsdl, $authStorage);
         $soapClient->expects(self::once())
@@ -162,7 +162,7 @@ class CancelShipmentTest extends AbstractApiTest
         $this->expectExceptionCode(2000);
         $this->expectExceptionMessage('Unknown shipment number.');
 
-        $logger = new TestLogger();
+        $logger = $this->createMock(LoggerInterface::class);
 
         $soapClient = $this->getMockClient($wsdl, $authStorage);
         $soapClient->expects(self::once())
@@ -209,7 +209,7 @@ class CancelShipmentTest extends AbstractApiTest
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('Invalid XML: cvc-minLength-valid.');
 
-        $logger = new TestLogger();
+        $logger = $this->createMock(LoggerInterface::class);
 
         $soapClient = $this->getMockClient($wsdl, $authStorage);
         $soapClient->expects(self::once())

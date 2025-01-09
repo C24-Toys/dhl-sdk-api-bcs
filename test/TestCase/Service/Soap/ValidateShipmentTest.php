@@ -22,7 +22,7 @@ use Dhl\Sdk\Paket\Bcs\Test\Provider\Soap\Service\ValidateShipmentTestProvider;
 use Dhl\Sdk\Paket\Bcs\Test\SoapClientFake;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\Test\TestLogger;
+use Psr\Log\LoggerInterface;
 
 class ValidateShipmentTest extends TestCase
 {
@@ -94,12 +94,14 @@ class ValidateShipmentTest extends TestCase
      * @throws ServiceException
      */
     public function validateShipmentsSuccess(
-        string $wsdl,
+        string                         $wsdl,
         AuthenticationStorageInterface $authStorage,
-        array $shipmentOrders,
-        string $responseXml
-    ): void {
-        $logger = new TestLogger();
+        array                          $shipmentOrders,
+        string                         $responseXml
+    ): void
+    {
+        /** @var LoggerInterface|MockObject $logger */
+        $logger = $this->createMock(LoggerInterface::class);
 
         $clientOptions = $this->getSoapClientOptions($authStorage);
 
@@ -143,12 +145,13 @@ class ValidateShipmentTest extends TestCase
      * @throws ServiceException
      */
     public function validateShipmentsValidationWarning(
-        string $wsdl,
+        string                         $wsdl,
         AuthenticationStorageInterface $authStorage,
-        array $shipmentOrders,
-        string $responseXml
-    ): void {
-        $logger = new TestLogger();
+        array                          $shipmentOrders,
+        string                         $responseXml
+    ): void
+    {
+        $logger = $this->createMock(LoggerInterface::class);
 
         $clientOptions = $this->getSoapClientOptions($authStorage);
 
@@ -188,11 +191,12 @@ class ValidateShipmentTest extends TestCase
      * @param string $responseXml
      */
     public function validateShipmentsError(
-        string $wsdl,
+        string                         $wsdl,
         AuthenticationStorageInterface $authStorage,
-        array $shipmentOrders,
-        string $responseXml
-    ): void {
+        array                          $shipmentOrders,
+        string                         $responseXml
+    ): void
+    {
         self::markTestIncomplete('No such response observed/recorded yet.');
     }
 
@@ -210,16 +214,17 @@ class ValidateShipmentTest extends TestCase
      * @throws ServiceException
      */
     public function validateShipmentsServerError(
-        string $wsdl,
+        string                         $wsdl,
         AuthenticationStorageInterface $authStorage,
-        array $shipmentOrders,
-        \SoapFault $soapFault
-    ): void {
+        array                          $shipmentOrders,
+        \SoapFault                     $soapFault
+    ): void
+    {
         $this->expectException(ServiceException::class);
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('INVALID_CONFIGURATION');
 
-        $logger = new TestLogger();
+        $logger = $this->createMock(LoggerInterface::class);
 
         $clientOptions = $this->getSoapClientOptions($authStorage);
 

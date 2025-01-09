@@ -22,7 +22,7 @@ use Dhl\Sdk\Paket\Bcs\Test\Expectation\RequestTypeExpectation;
 use Dhl\Sdk\Paket\Bcs\Test\Expectation\ShipmentServiceTestExpectation as Expectation;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\Soap\Service\CreateShipmentTestProvider;
 use Dhl\Sdk\Paket\Bcs\Test\Provider\Soap\Service\ErrorProvider;
-use Psr\Log\Test\TestLogger;
+use Psr\Log\LoggerInterface;
 
 class CreateShipmentTest extends AbstractApiTest
 {
@@ -100,7 +100,7 @@ class CreateShipmentTest extends AbstractApiTest
         array $shipmentOrders,
         string $responseXml
     ): void {
-        $logger = new TestLogger();
+        $logger = $this->createMock(LoggerInterface::class);
 
         $soapClient = $this->getMockClient($wsdl, $authStorage);
         $soapClient->expects(self::once())
@@ -153,7 +153,7 @@ class CreateShipmentTest extends AbstractApiTest
         array $shipmentOrders,
         string $responseXml
     ): void {
-        $logger = new TestLogger();
+        $logger = $this->createMock(LoggerInterface::class);
 
         $soapClient = $this->getMockClient($wsdl, $authStorage);
         $soapClient->expects(self::once())
@@ -198,7 +198,7 @@ class CreateShipmentTest extends AbstractApiTest
         array $shipmentOrders,
         string $responseXml
     ): void {
-        $logger = new TestLogger();
+        $logger = $this->createMock(LoggerInterface::class);
         $configuration = new OrderConfiguration(true);
 
         $soapClient = $this->getMockClient($wsdl, $authStorage);
@@ -244,7 +244,7 @@ class CreateShipmentTest extends AbstractApiTest
         array $shipmentOrders,
         string $responseXml
     ): void {
-        $logger = new TestLogger();
+        $logger = $this->createMock(LoggerInterface::class);
 
         $soapClient = $this->getMockClient($wsdl, $authStorage);
         $soapClient->expects(self::once())
@@ -291,7 +291,7 @@ class CreateShipmentTest extends AbstractApiTest
         $this->expectExceptionCode(1101);
         $this->expectExceptionMessage('Hard validation error occured.');
 
-        $logger = new TestLogger();
+        $logger = $this->createMock(LoggerInterface::class);
         $configuration = new OrderConfiguration(true);
 
         $soapClient = $this->getMockClient($wsdl, $authStorage);
@@ -340,7 +340,7 @@ class CreateShipmentTest extends AbstractApiTest
         $this->expectException(ServiceException::class);
         $this->expectExceptionCode($matches[1]);
 
-        $logger = new TestLogger();
+        $logger = $this->createMock(LoggerInterface::class);
 
         $soapClient = $this->getMockClient($wsdl, $authStorage);
         $soapClient->expects(self::once())
@@ -395,7 +395,7 @@ class CreateShipmentTest extends AbstractApiTest
         $this->expectExceptionCode(0);
         $this->expectExceptionMessage('INVALID_CONFIGURATION');
 
-        $logger = new TestLogger();
+        $logger = $this->createMock(LoggerInterface::class);
 
         $soapClient = $this->getMockClient($wsdl, $authStorage);
         $soapClient->expects(self::once())
